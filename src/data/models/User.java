@@ -5,7 +5,7 @@ import exceptions.electionIsNotActiveException;
 import exceptions.tooYoungToVote;
 
 public class User {
-    private String username;
+    protected String username;
     private int age;
     private boolean isAdmin = false;
 
@@ -15,6 +15,11 @@ public class User {
         this.age = age;
         this.isAdmin = isAdmin;
     }
+
+    public User(){
+
+    }
+
 
 
     public String castVote(Election election, User user, PoliticalParty politicalParty, BallotBox ballotBox) {
@@ -34,5 +39,14 @@ public class User {
         if(!election.isActive()){
             throw new electionIsNotActiveException("Election is not active");
         }
+    }
+
+    public void setAge(int age) {
+        validateAge(age);
+        this.age = age;
+    }
+
+    public String getUsername() {
+        return username;
     }
 }

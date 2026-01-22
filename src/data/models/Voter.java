@@ -7,4 +7,10 @@ public class Voter extends User {
         super(username, age, isAdmin);
         voterId = voterId + 1;
     }
+
+    public int getVoterId() {
+        return voterId;
+    }
+
+
 }

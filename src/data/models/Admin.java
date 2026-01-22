@@ -9,14 +9,27 @@ import java.util.Objects;
 
 public class Admin extends User {
     private String password = "12345";
+    private List<Election> elections;
 
     public Admin(String password, String username, int age, boolean isAdmin) {
         super(username, age, isAdmin);
         verifyPassword(password);
+        this.elections = new ArrayList<>();
     }
 
-    public Election createElection(BallotBox ballotBox, LocalDateTime startTime, LocalDateTime endTime) {
-        return new Election(ballotBox, startTime, endTime);
+
+
+
+    public void login(String username, String password){
+        this.username=username;
+        verifyPassword(password);
+        this.password=password;
+    }
+
+
+
+    public Election createElection(String name, BallotBox ballotBox, LocalDateTime startTime, LocalDateTime endTime) {
+        return new Election(name, ballotBox, startTime, endTime);
     }
 
     public String stopElection(Election election, LocalDateTime endTime) {
@@ -25,8 +38,11 @@ public class Admin extends User {
     }
 
     public String deleteBallot(BallotBox ballotBox, int ballotNumber) {
+        validateBallotNumber(ballotBox, ballotNumber);
         ballotBox.getBallots().removeIf(ballot -> ballotNumber == ballot.getBallotNumber());
         return "Ballot has been removed";
+
+
     }
 
     private void verifyPassword(String password) {
@@ -79,4 +95,19 @@ public class Admin extends User {
 
                return highest;
         }
+
+
+        private void validateBallotNumber(BallotBox ballotBox, int BallotNumber){
+                if(BallotNumber < ballotBox.getBallots().size() ||BallotNumber > ballotBox.getBallots().size()){
+                    throw new IllegalArgumentException("Ballot number does not exists");
+                }
+        }
+
+    public List<Election> getElections() {
+        return elections;
+    }
+
+    public void setElections(List<Election> elections) {
+        this.elections = elections;
+    }
 }

@@ -1,4 +1,7 @@
 package data.models;
+import exceptions.electionIsNotActiveException;
+import exceptions.invalidPassword;
+import exceptions.tooYoungToVote;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -45,8 +48,28 @@ public class AdminTest {
         assertEquals(0, ballotBox.getBallots().size());
     }
 
+    @Test
+    public void testThatYouCantVoteIfAnElectionIsNotActive(){
+        election.setActive(false);
+        Voter voter = new Voter("Emmanuel" , 18, false);
 
+        assertThrows(electionIsNotActiveException.class, () -> {voter.castVote(election, admin, PoliticalParty.PDP, ballotBox);});
+    }
 
+  @Test
+    public void testThatYouCannotVoteIfYouAreNotOfAge(){
+      assertThrows(tooYoungToVote.class, () -> {Voter voter = new Voter("Emmanuel" , 8, false);});
+  }
+
+  @Test
+    public void testThatAdminInputsCorrectPassword(){
+        assertThrows(invalidPassword.class, () ->{Admin admin = new Admin("45" , "Haliya", 20, true);});
+  }
+
+  @Test
+    public void testThatAdminCannotRemoveABallotThatDoesNotExist(){
+        assertThrows(IllegalArgumentException.class, () -> {admin.deleteBallot(ballotBox, 2);});
+  }
 
 
 
