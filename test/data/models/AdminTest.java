@@ -20,7 +20,7 @@ public class AdminTest {
         ballotBox = new BallotBox();
         LocalDateTime startTime = LocalDateTime.now();
         LocalDateTime endTime = startTime.plusHours(24);
-        election = admin.createElection(ballotBox, startTime, endTime);
+        election = admin.createElection("name", ballotBox, startTime, endTime);
         election.setActive(true);
     }
 
@@ -35,7 +35,7 @@ public class AdminTest {
     public void testThatAdminCanStopElection(){
         LocalDateTime startTime = LocalDateTime.now();
         LocalDateTime endTime = startTime.plusHours(24);
-        Election election = admin.createElection(ballotBox, startTime, endTime);
+        Election election = admin.createElection("name", ballotBox, startTime, endTime);
         LocalDateTime stopTime = LocalDateTime.now();
         String result = admin.stopElection(election, stopTime);
         assertEquals("Election has been cancelled", result);
@@ -51,14 +51,14 @@ public class AdminTest {
     @Test
     public void testThatYouCantVoteIfAnElectionIsNotActive(){
         election.setActive(false);
-        Voter voter = new Voter("Emmanuel" , 18, false);
+        Voter voter = new Voter("Emmanuel" , 18, "08054418793", false);
 
         assertThrows(electionIsNotActiveException.class, () -> {voter.castVote(election, admin, PoliticalParty.PDP, ballotBox);});
     }
 
   @Test
     public void testThatYouCannotVoteIfYouAreNotOfAge(){
-      assertThrows(tooYoungToVote.class, () -> {Voter voter = new Voter("Emmanuel" , 8, false);});
+      assertThrows(tooYoungToVote.class, () -> {Voter voter = new Voter("Emmanuel" , 8, "08054418793", false);});
   }
 
   @Test

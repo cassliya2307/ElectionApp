@@ -10,20 +10,23 @@ import java.util.Objects;
 public class Admin extends User {
     private String password = "12345";
     private List<Election> elections;
+    private String[] details = new String[2];
+
 
     public Admin(String password, String username, int age, boolean isAdmin) {
         super(username, age, isAdmin);
         verifyPassword(password);
         this.elections = new ArrayList<>();
+        details[0] = password;
+        details[1] = username;
+
     }
 
 
 
 
-    public void login(String username, String password){
-        this.username=username;
-        verifyPassword(password);
-        this.password=password;
+    public boolean login(String username, String password){
+        return Objects.equals(password, details[0]) && Objects.equals(username, details[1]);
     }
 
 
@@ -110,4 +113,6 @@ public class Admin extends User {
     public void setElections(List<Election> elections) {
         this.elections = elections;
     }
+
+
 }

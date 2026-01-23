@@ -1,6 +1,8 @@
 package data.models;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Election {
     private String name;
@@ -9,11 +11,13 @@ public class Election {
     private BallotBox ballotBox;
     private boolean isActive;
 
+
     public Election(String name, BallotBox ballotBox,  LocalDateTime startTime, LocalDateTime endTime) {
         this.ballotBox = ballotBox;
         this.startTime = startTime;
         this.endTime = endTime;
         this.name = name;
+
     }
 
     public LocalDateTime getEndTime() {
@@ -48,4 +52,6 @@ public class Election {
     public void setName(String name) {
         this.name = name;
     }
+
+
 }
